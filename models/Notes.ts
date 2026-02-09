@@ -1,41 +1,75 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const NoteSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: [true, 'Please provide a title'],
-    trim: true,
-    maxlength: [100, 'Title cannot be more than 100 characters']
+const NoteSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: [true, "Please provide a title"],
+      trim: true,
+      maxlength: [100, "Title cannot be more than 100 characters"],
+    },
+    description: {
+      type: String,
+      required: [true, "Please provide a description"],
+      trim: true,
+      maxlength: [500, "Description cannot be more than 500 characters"],
+    },
+    category: {
+      type: String,
+      required: [true, "Please provide a category"],
+      enum: [
+        "Math-1",
+        "EME",
+        "PPS",
+        "Math-2",
+        "DSA",
+        "BEEE",
+        "Physics",
+        "Oops",
+        "DBMS",
+        "DE",
+        "DM",
+        "IDS",
+        "COA",
+        "FPP",
+        "DAA",
+        "OS",
+        "ISC",
+        "AJAVA",
+        "CC",
+        "DCCN",
+        "DMDW",
+        "EEC",
+        "TOC",
+        "MPMC",
+        "ESE",
+        "IOT",
+        "IML",
+        "AADK",
+        "OE",
+        "Pyqs",
+      ],
+    },
+    pdfUrl: {
+      type: String,
+      required: [true, "PDF URL is required"],
+    },
+    publicId: {
+      type: String,
+      required: [true, "Cloudinary public ID is required"],
+    },
+    uploadedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Admin",
+      required: true,
+    },
   },
-  description: {
-    type: String,
-    required: [true, 'Please provide a description'],
-    trim: true,
-    maxlength: [500, 'Description cannot be more than 500 characters']
+  {
+    timestamps: true, // Automatically adds createdAt and updatedAt
   },
-  category: {
-    type: String,
-    required: [true, 'Please provide a category'],
-    enum: ['Math2', 'Dsa', 'OS', 'BEEE', 'Physics', 'IML', 'oops', 'python','Pyqs'],
-  },
-  pdfUrl: {
-    type: String,
-    required: [true, 'PDF URL is required'],
-  },
-  publicId: {
-    type: String,
-    required: [true, 'Cloudinary public ID is required'],
-  },
-  uploadedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Admin',
-    required: true,
-  },
-}, {
-  timestamps: true,  // Automatically adds createdAt and updatedAt
-});
+);
 
 // Check if model already exists (important for Next.js hot reload)
-const Note = mongoose.models.Note || mongoose.model('Note', NoteSchema);
+const Note = mongoose.models.Note || mongoose.model("Note", NoteSchema);
 
 export default Note;
